@@ -19,12 +19,11 @@ func handleOption(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 func (app *Application) routes() *httprouter.Router {
 	router := httprouter.New()
-
+	router.OPTIONS("/*path", handleOption)
 	router.HandlerFunc(http.MethodGet, "/api/todos", app.getAllTodos)
 	router.HandlerFunc(http.MethodPost, "/api/todos", app.editTodo)
 	router.HandlerFunc(http.MethodGet, "/api/todos/:id", app.getOneTodo)
 	router.HandlerFunc(http.MethodDelete, "/api/todos/:id", app.deleteTodo)
-	router.OPTIONS("/*path", handleOption)
 
 	return router
 }
