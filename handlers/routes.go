@@ -7,7 +7,7 @@ import (
 )
 
 func handleOption(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Origin", "https://codesandbox.io/")
 	w.Header().Set("Access-Control-Allow-Methods", "*")
 	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Add("Access-Control-Allow-Headers", "Origin")
