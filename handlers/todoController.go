@@ -25,7 +25,7 @@ func (app *Application) getAllTodos(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = app.WriteJSON(w, http.StatusOK, ctg, "")
+	err = app.WriteJSON(w, http.StatusOK, ctg, "todos")
 	if err != nil {
 		app.ErrorJSON(w, err)
 		return
