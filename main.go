@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 	"strconv"
 	"todo-api-go/db"
@@ -44,17 +43,9 @@ func main() {
 	}
 	defer db.Close()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-
-	})
-
 	srv := handlers.ServerSetting(cfg, logger, db)
 
 	logger.Println("Starting server on port", cfg.Port)
-
 	err = srv.ListenAndServe()
 
 	if err != nil {

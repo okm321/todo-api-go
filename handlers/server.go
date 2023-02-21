@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"time"
 	"todo-api-go/models"
+
+	"github.com/rs/cors"
 )
 
 type Config struct {
@@ -36,10 +38,11 @@ func ServerSetting(cfg Config, logger *log.Logger, db *sql.DB) (srv *http.Server
 		Logger: logger,
 		Models: models.NewModels(db),
 	}
+	handler := cors.Default().Handler(app.routes())
 
 	srv = &http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.Port),
-		Handler:      app.routes(),
+		Handler:      handler,
 		IdleTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
 	}
