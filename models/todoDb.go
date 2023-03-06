@@ -18,7 +18,7 @@ func (m *DBModel) TodoGetAll() ([]*Todo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := "select id, title, description from todos"
+	query := "select id, title, description, is_done from todos"
 
 	rows, err := m.DB.QueryContext(ctx, query)
 	if err != nil {
@@ -48,7 +48,7 @@ func (m *DBModel) GetTodo(id int) (*Todo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := `select id, title, description from todos where id = $1`
+	query := `select id, title, description, is_done from todos where id = $1`
 
 	row := m.DB.QueryRowContext(ctx, query, id)
 
