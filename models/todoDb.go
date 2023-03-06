@@ -9,6 +9,7 @@ type Todo struct {
 	ID          int       `json:"id"`
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
+	IsDone      bool      `json:"is_done"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }
@@ -32,6 +33,7 @@ func (m *DBModel) TodoGetAll() ([]*Todo, error) {
 			&ctg.ID,
 			&ctg.Title,
 			&ctg.Description,
+			&ctg.IsDone,
 		)
 		if err != nil {
 			return nil, err
@@ -55,6 +57,7 @@ func (m *DBModel) GetTodo(id int) (*Todo, error) {
 		&ctg.ID,
 		&ctg.Title,
 		&ctg.Description,
+		&ctg.IsDone,
 	)
 	if err != nil {
 		return nil, err
@@ -67,11 +70,12 @@ func (m *DBModel) TodoCreate(todo Todo) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := `insert into todos (title, description) values ($1, $2)`
+	query := `insert into todos (title, description, is_done) values ($1, $2, $3)`
 
 	_, err := m.DB.ExecContext(ctx, query,
 		todo.Title,
 		todo.Description,
+		todo.IsDone,
 	)
 
 	if err != nil {
@@ -86,12 +90,13 @@ func (m *DBModel) TodoUpdate(todo Todo) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := `update todos set title = $1, description = $2 where id = $3`
+	query := `update todos set title = $1, description = $2, is_done = $4 where id = $3`
 
 	_, err := m.DB.ExecContext(ctx, query,
 		todo.Title,
 		todo.Description,
 		todo.ID,
+		todo.IsDone,
 	)
 
 	if err != nil {
