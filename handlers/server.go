@@ -49,12 +49,10 @@ func ServerSetting(cfg Config, logger *log.Logger, db *sql.DB) (srv *http.Server
 	return
 }
 
-func (app *Application) WriteJSON(w http.ResponseWriter, status int, data interface{}, wrap string) error {
-	wrapper := make(map[string]interface{})
+func (app *Application) WriteJSON(w http.ResponseWriter, status int, data interface{}) error {
+	// wrapper := make(map[string]interface{})
 
-	wrapper[wrap] = data
-
-	js, err := json.Marshal(wrapper)
+	js, err := json.Marshal(data)
 	if err != nil {
 		return err
 	}
@@ -75,5 +73,5 @@ func (app *Application) ErrorJSON(w http.ResponseWriter, err error) {
 		Message: err.Error(),
 	}
 
-	app.WriteJSON(w, http.StatusBadRequest, theError, "error")
+	app.WriteJSON(w, http.StatusBadRequest, theError)
 }

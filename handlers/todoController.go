@@ -25,7 +25,7 @@ func (app *Application) getAllTodos(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = app.WriteJSON(w, http.StatusOK, ctg, "todos")
+	err = app.WriteJSON(w, http.StatusOK, ctg)
 	if err != nil {
 		app.ErrorJSON(w, err)
 		return
@@ -47,7 +47,7 @@ func (app *Application) getOneTodo(w http.ResponseWriter, r *http.Request) {
 		app.ErrorJSON(w, err)
 		return
 	}
-	err = app.WriteJSON(w, http.StatusOK, ctg, "todo")
+	err = app.WriteJSON(w, http.StatusOK, ctg)
 	if err != nil {
 		app.ErrorJSON(w, err)
 		return
@@ -95,7 +95,7 @@ func (app *Application) editTodo(w http.ResponseWriter, r *http.Request) {
 		OK: true,
 	}
 
-	err = app.WriteJSON(w, http.StatusOK, ok, "response")
+	err = app.WriteJSON(w, http.StatusOK, ok)
 	if err != nil {
 		app.ErrorJSON(w, err)
 		return
@@ -121,7 +121,7 @@ func (app *Application) deleteTodo(w http.ResponseWriter, r *http.Request) {
 		OK: true,
 	}
 
-	err = app.WriteJSON(w, http.StatusOK, ok, "response")
+	err = app.WriteJSON(w, http.StatusOK, ok)
 	if err != nil {
 		app.ErrorJSON(w, err)
 		return
