@@ -13,10 +13,9 @@ import (
 )
 
 type TodoPayload struct {
-	ID          int    `json:"id"`
-	Title       string `json:"name"`
-	Description string `json:"description"`
-	IsDone      bool   `json:"is_done"`
+	ID     int    `json:"id"`
+	Title  string `json:"title"`
+	IsDone bool   `json:"is_done"`
 }
 
 func (app *Application) getAllTodos(w http.ResponseWriter, r *http.Request) {
@@ -75,7 +74,6 @@ func (app *Application) editTodo(w http.ResponseWriter, r *http.Request) {
 
 	tm.ID = tp.ID
 	tm.Title = tp.Title
-	tm.Description = tp.Description
 	tm.IsDone = tp.IsDone
 	tm.UpdatedAt = time.Now()
 

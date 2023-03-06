@@ -6,19 +6,18 @@ import (
 )
 
 type Todo struct {
-	ID          int       `json:"id"`
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	IsDone      bool      `json:"is_done"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID        int       `json:"id"`
+	Title     string    `json:"title"`
+	IsDone    bool      `json:"is_done"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func (m *DBModel) TodoGetAll() ([]*Todo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := "select id, title, description, is_done from todos"
+	query := "select id, title, is_done from todos"
 
 	rows, err := m.DB.QueryContext(ctx, query)
 	if err != nil {
@@ -32,7 +31,6 @@ func (m *DBModel) TodoGetAll() ([]*Todo, error) {
 		err := rows.Scan(
 			&ctg.ID,
 			&ctg.Title,
-			&ctg.Description,
 			&ctg.IsDone,
 		)
 		if err != nil {
@@ -48,7 +46,7 @@ func (m *DBModel) GetTodo(id int) (*Todo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := `select id, title, description, is_done from todos where id = $1`
+	query := `select id, title, is_done from todos where id = $1`
 
 	row := m.DB.QueryRowContext(ctx, query, id)
 
@@ -56,7 +54,6 @@ func (m *DBModel) GetTodo(id int) (*Todo, error) {
 	err := row.Scan(
 		&ctg.ID,
 		&ctg.Title,
-		&ctg.Description,
 		&ctg.IsDone,
 	)
 	if err != nil {
@@ -70,11 +67,10 @@ func (m *DBModel) TodoCreate(todo Todo) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := `insert into todos (title, description, is_done) values ($1, $2, $3)`
+	query := `insert into todos (title, is_done) values ($1, $2)`
 
 	_, err := m.DB.ExecContext(ctx, query,
 		todo.Title,
-		todo.Description,
 		todo.IsDone,
 	)
 
@@ -90,11 +86,10 @@ func (m *DBModel) TodoUpdate(todo Todo) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := `update todos set title = $1, description = $2, is_done = $4 where id = $3`
+	query := `update todos set title = $1, is_done = $2 where id = $3`
 
 	_, err := m.DB.ExecContext(ctx, query,
 		todo.Title,
-		todo.Description,
 		todo.ID,
 		todo.IsDone,
 	)
