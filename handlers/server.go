@@ -38,7 +38,7 @@ func ServerSetting(cfg Config, logger *log.Logger, db *sql.DB) (srv *http.Server
 		Logger: logger,
 		Models: models.NewModels(db),
 	}
-	handler := cors.Default().Handler(app.routes())
+	handler := cors.AllowAll().Handler(app.routes())
 
 	srv = &http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.Port),
