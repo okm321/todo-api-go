@@ -90,8 +90,8 @@ func (m *DBModel) TodoUpdate(todo Todo) error {
 
 	_, err := m.DB.ExecContext(ctx, query,
 		todo.Title,
-		todo.ID,
 		todo.IsDone,
+		todo.ID,
 	)
 
 	if err != nil {
